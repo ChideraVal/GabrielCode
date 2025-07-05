@@ -48,7 +48,7 @@ def make_payment(request, id):
         paid_balance = float(sum([payment.amount for payment in loan.loanpayment_set.filter(approval_status='Approved').all()]))
         rem_balance = loan.amount_with_tax() - paid_balance
         if int(form.data['amount']) > rem_balance:
-            return HttpResponse(f'<h1>Over payment! Payment cannot be greater than ${rem_balance}.</h1>')
+            return HttpResponse(f'<h1>Over payment! Payment cannot be greater than ₦{rem_balance}.</h1>')
         if form.is_valid():
             form.save(loan=loan)
             return redirect(f'/loanpayments/{loan.id}/')

@@ -20,17 +20,17 @@
     <div class="amt">
         <div class="loan">
             <p>Loan amount (+ tax)</p>
-            <h1>${{ loan.amount_with_tax }}</h1>
+            <h1>₦{{ loan.amount_with_tax }}</h1>
         </div>
 
         <div class="loan">
             <p>Paid balance</p>
-            <h1>${{ paid }}</h1>
+            <h1>₦{{ paid }}</h1>
         </div>
         
         <div class="loan">
             <p>Remaining balance</p>
-            <h1>${{ rem }}</h1>
+            <h1>₦{{ rem }}</h1>
         </div>
     </div>
         
@@ -48,7 +48,7 @@
     <div class="table">
         <div class="row fields">
             <div class="col">
-                <h2>Amount ($)</h2>
+                <h2>Amount (₦)</h2>
             </div>
 
             <div class="col">
@@ -62,7 +62,7 @@
         {% for payment in loan.loanpayment_set.all %}
         <div class="row">
             <div class="col">
-                <p>${{ payment.amount }}</p>
+                <p>₦{{ payment.amount }}</p>
             </div>
 
             <div class="col">

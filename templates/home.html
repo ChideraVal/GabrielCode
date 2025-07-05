@@ -14,7 +14,7 @@
 {% block body %}
 <div class="wallet">
     <p>Total loan amount</p>
-    <h1>${{ total }}</h1>
+    <h1>₦{{ total }}</h1>
 
     <div class="links">
         <a href="/requestloan/">Request a loan</a>
@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col">
                 <a href="/loanpayments/{{ loan.id }}/">
-                <h2>${{ loan.amount_with_tax }}</h2>
+                <h2>₦{{ loan.amount_with_tax }}</h2>
                 </a>
             </div>
 

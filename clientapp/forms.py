@@ -47,8 +47,8 @@ class LoanForm(forms.ModelForm):
         exclude = ['owner', 'approval_status', 'payment_status', 'create_time']
     
         labels = {
-            'amount': 'Amount ($)',
-            'monthly_income': 'Monthly Income ($)',
+            'amount': 'Amount (₦)',
+            'monthly_income': 'Monthly Income (₦)',
             'source_of_income': 'Source of Income (if employed)'
         }
 
@@ -64,7 +64,7 @@ class LoanPaymentForm(forms.ModelForm):
         exclude = ['loan', 'approval_status', 'create_time']
     
         labels = {
-            'amount': 'Amount to Pay ($)',
+            'amount': 'Amount to Pay (₦)',
         }
 
     def save(self, loan, commit = False):
