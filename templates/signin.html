@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'form.css' %}">
+</head>
+
+<body>
+    <div class="page">
+        <h1>Sign In</h1>
+        <form action="{{ path }}" method="post" id="form">
+            {% csrf_token %}
+            {% for field in form %}
+            <h3>{{ field.label }}</h3>
+            <div>
+                {{ field }}
+            </div>
+            {% endfor %}
+
+            {% for key, error in form.errors.items %}
+                {{ error }}
+            {% endfor %}
+
+            <p class="error" id="errormsg" style="display: none;">Both username and password are required.</p>
+            
+            <label>
+                <input type="checkbox" id="show" style="cursor: pointer;">
+                <p style="display: inline; margin-left: .5em;">Show Password</p>
+            </label>
+            <input type="submit" id="subbtn" value="Sign In">
+        </form>
+        <p class="option">Don't have an account? <a href="/signup/">Register</a> </p>
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('id_username');
+        const passwordInput = document.getElementById('id_password');
+        const showPasswordInput = document.getElementById('show');
+        const submitButton = document.getElementById('subbtn');
+        const errorMsg = document.getElementById('errormsg');
+        const form = document.getElementById('form');
+        const error = document.getElementsByTagName('ul');
+        
+        showPasswordInput.onchange = () => {
+            if (passwordInput.type == 'password') {
+                passwordInput.type = 'text';
+                return
+            }
+            passwordInput.type = 'password';
+        }
+
+        submitButton.onclick = (e) => {
+            console.log(error);
+            for (err of error) {
+                err.style.display = 'none'
+            }
+            e.preventDefault();
+            console.log('Submit Button Clicked!');
+            if (!usernameInput.value || !passwordInput.value) {
+                errorMsg.style.display = 'block';
+            } else {
+                console.log('No Issues');
+                form.submit();
+            }
+        }
+
+    </script>
+</body>
+
+</html>

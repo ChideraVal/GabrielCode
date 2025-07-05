@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+{% load mathfilters %}
+<title>Loan Payments</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Loan Payments</h1>
+{% endblock %}
+
+{% block body %}
+<div class="links">
+    <a href="/">Back to Home</a>
+</div>
+
+<div class="wallet">
+    <div class="amt">
+        <div class="loan">
+            <p>Loan amount (+ tax)</p>
+            <h1>${{ loan.amount_with_tax }}</h1>
+        </div>
+
+        <div class="loan">
+            <p>Paid balance</p>
+            <h1>${{ paid }}</h1>
+        </div>
+        
+        <div class="loan">
+            <p>Remaining balance</p>
+            <h1>${{ rem }}</h1>
+        </div>
+    </div>
+        
+    <div class="links">
+        <a href="/makepayment/{{ loan.id }}/">Make a payment</a>
+    </div>
+</div>
+
+<div class="history">
+    {% if loan.loanpayment_set.all|length == 0 %}
+    <h2>No Loan Payments</h2>
+    {% else %}
+    <h2>All Loan Payments ({{ loan.loanpayment_set.all|length }})</h2>
+
+    <div class="table">
+        <div class="row fields">
+            <div class="col">
+                <h2>Amount ($)</h2>
+            </div>
+
+            <div class="col">
+                <h2>Approval Status</h2>
+            </div>
+
+            <div class="col">
+                <h2>Date</h2>
+            </div>
+        </div>
+        {% for payment in loan.loanpayment_set.all %}
+        <div class="row">
+            <div class="col">
+                <p>${{ payment.amount }}</p>
+            </div>
+
+            <div class="col">
+                {% if payment.approval_status == 'Approved' %}
+                <p class="as" style="background-color: rgb(174, 230, 174); color: green;">{{ payment.approval_status }}</p>
+                {% elif payment.approval_status == 'Pending' %}
+                <p class="as" style="background-color: rgb(236, 203, 141); color: orangered;">{{ payment.approval_status }}</p>
+                {% else %}
+                <p class="as" style="background-color: rgb(245, 168, 168); color: red;">{{ payment.approval_status }}</p>
+                {% endif %}
+            </div>
+
+            <div class="col">
+                <p>{{ payment.create_time.date }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

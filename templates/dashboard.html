@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Home</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Welcome, {{ request.user }}</h1>
+{% endblock %}
+
+{% block body %}
+<div class="wallet">
+    <p>Staff Repository System</p>
+    <h1>{{ profiles|length }} Profile{{ profiles|length|pluralize }}</h1>
+
+    <div class="links">
+        <a href="/createnewprofile/">Create new profile</a>
+    </div>
+</div>
+
+<div class="history">
+    {% if profiles|length == 0 %}
+    <h2>No Staff Profiles</h2>
+    {% else %}
+    <h2>All Staff Profiles</h2>
+
+    <div class="table">
+        <div class="row fields">
+            <div class="col">
+                <h2>Name</h2>
+            </div>
+
+            <div class="col">
+                <h2>Email</h2>
+            </div>
+
+            <div class="col">
+                <h2>Faculty</h2>
+            </div>
+
+            <div class="col">
+                <h2>Department</h2>
+            </div>
+
+            <div class="col">
+                <h2>Files</h2>
+            </div>
+        </div>
+        {% for profile in profiles %}
+        <div class="row">
+            <div class="col">
+                <a href="/profiledetails/{{ profile.id }}/">
+                <h2 style="font-size: 1.19em;">{{ profile.name }}</h2>
+                </a>
+            </div>
+
+            <div class="col">
+                <p>{{ profile.email }}</p>
+            </div>
+
+            <div class="col">
+                <p>{{ profile.faculty|capfirst }}</p>
+            </div>
+
+            <div class="col">
+                <p>{{ profile.department|capfirst }}</p>
+            </div>
+
+            <div class="col">
+                <p>{{ profile.files.all|length}}</p>
+            </div>
+        </div>
+        {% endfor %}
+    
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+{% load mathfilters %}
+<title>Home</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Welcome, {{ request.user }}</h1>
+{% endblock %}
+
+{% block body %}
+<div class="wallet">
+    <p>Total loan amount</p>
+    <h1>${{ total }}</h1>
+
+    <div class="links">
+        <a href="/requestloan/">Request a loan</a>
+    </div>
+</div>
+
+<div class="history">
+    <h2>Loan History</h2>
+
+    <div class="table">
+        <div class="row fields">
+            <div class="col">
+                <h2>Amount (+ tax)</h2>
+            </div>
+
+            <div class="col">
+                <h2>Approval Status</h2>
+            </div>
+
+            <div class="col">
+                <h2>Payment Status</h2>
+            </div>
+
+            <div class="col">
+                <h2>Duration</h2>
+            </div>
+
+            <div class="col">
+                <h2>Date</h2>
+            </div>
+        </div>
+        {% for loan in loans %}
+        <div class="row">
+            <div class="col">
+                <a href="/loanpayments/{{ loan.id }}/">
+                <h2>${{ loan.amount_with_tax }}</h2>
+                </a>
+            </div>
+
+            <div class="col">
+                {% if loan.approval_status == 'Approved' %}
+                <p class="as" style="background-color: rgb(174, 230, 174); color: green;">{{ loan.approval_status }}</p>
+                {% elif loan.approval_status == 'Pending' %}
+                <p class="as" style="background-color: rgb(236, 203, 141); color: orangered;">{{ loan.approval_status }}</p>
+                {% else %}
+                <p class="as" style="background-color: rgb(230, 174, 174); color: red;">{{ loan.approval_status }}</p>
+                {% endif %}
+            </div>
+
+            <div class="col">
+                {% if loan.payment_status == 'Paid' %}
+                <p class="ps" style="background-color: rgb(174, 230, 174); color: green;">{{ loan.payment_status }}</p>
+                {% else %}
+                <p class="ps" style="background-color: rgb(230, 174, 174); color: red;">{{ loan.payment_status }}</p>
+                {% endif %}
+            </div>
+
+            <div class="col">
+                <p>{{ loan.duration|sub:loan.rem_time }} of {{ loan.duration }} days left</p>
+            </div>
+
+            <div class="col">
+                <p>{{ loan.create_time.date }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    
+    </div>
+    
+</div>
+{% endblock %}

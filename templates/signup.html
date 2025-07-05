@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'form.css' %}">
+</head>
+
+<body>
+    <h1>Create your account</h1>
+    <form action="/signup/" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <h3>{{ field.label }}</h3>
+        <div>
+            {{ field }}
+        </div>
+        {% for error in field.errors %}
+        <p class="error">{{ error }}</p>
+        {% endfor %}
+        {% endfor %}
+        <input type="submit" value="Sign Up">
+    </form>
+    <p class="option">Have an account? <a href="/signin/">Sign In</a> </p>
+
+</body>
+
+</html>

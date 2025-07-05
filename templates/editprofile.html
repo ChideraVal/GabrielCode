@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Edit Profile</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Edit account</h1>
+{% endblock %}
+
+{% block body %}
+
+<div class="links">
+    <a href="/">Back to Home</a>
+    <a href="/changepassword/">Change Password</a>
+    <a href="/signout/" style="color: white; background-color: red;">Log Out</a>
+</div>
+
+<form action="/editprofile/" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    {% if field.label != 'Password' %}
+    <h3>{{ field.label }}</h3>
+    <div>
+        {{ field }}
+    </div>
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+
+    <input type="submit" value="Save Changes">
+</form>
+{% endblock %}

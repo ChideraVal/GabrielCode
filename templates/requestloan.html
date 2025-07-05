@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Request a loan</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Request a loan</h1>
+{% endblock %}
+
+{% block body %}
+
+<div class="links">
+    <a href="/">Back to Home</a>
+</div>
+
+<form action="/requestloan/" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <h3>{{ field.label }}</h3>
+    <div>
+        {{ field }}
+    </div>
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+    {% endfor %}
+
+    <input type="submit" value="Submit Request">
+</form>
+{% endblock %}

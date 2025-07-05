@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Edit staff file</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Edit staff file</h1>
+{% endblock %}
+
+{% block body %}
+
+<div class="links">
+    <a href="/">Back to Home</a>
+</div>
+
+<form action="/editfile/{{ file.id }}/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <h3>{{ field.label }}</h3>
+    <div>
+        {% if field.label == 'File' %}
+        <label for="id_file">
+        {{ field }}
+        </label>
+        {% else %}
+        {{ field }}
+        {% endif %}
+    </div>
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+    {% endfor %}
+
+    <input type="submit" value="Save changes">
+</form>
+{% endblock %}

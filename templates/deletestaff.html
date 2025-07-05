@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Edit Profile</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Delete staff profile</h1>
+{% endblock %}
+
+{% block body %}
+
+<div class="links">
+    <a href="/">Back to Home</a>
+    <a href="/changepassword/">Change Password</a>
+    <a href="/signout/" style="color: white; background-color: red;">Log Out</a>
+</div>
+
+<form action="/deletestaff/{{ profile.id }}/" method="post">
+    {% csrf_token %}
+    <h2>Are you sure you want to delete staff profile ({{ profile.name }})?</h2>
+
+    <input type="submit" style="background-color: red;" value="Delete profile">
+</form>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Add new file</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Add new file</h1>
+{% endblock %}
+
+{% block body %}
+
+<div class="links">
+    <a href="/">Back to Home</a>
+</div>
+
+<form action="/createnewfile/{{ profile.id }}/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+    <h3>{{ field.label }}</h3>
+    <div>
+        {% if field.label == 'File' %}
+        <label for="id_file">
+        {{ field }}
+        </label>
+        {% else %}
+        {{ field }}
+        {% endif %}
+    </div>
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+    {% endfor %}
+
+    <input type="submit" value="Add File">
+</form>
+{% endblock %}

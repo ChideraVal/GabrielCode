@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Make Payment</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Make a Payment</h1>
+{% endblock %}
+
+{% block body %}
+
+<div class="links">
+    <a href="/">Back to Home</a>
+</div>
+
+<form action="/makepayment/{{ loan.id }}/" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <h3>{{ field.label }}</h3>
+    <div>        
+        {{ field }}
+    </div>
+    {% for error in field.errors %}
+    <p class="error">{{ error }}</p>
+    {% endfor %}
+    {% endfor %}
+
+    <input type="submit" value="Make payment">
+</form>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Staff Profile Files</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Staff Profile</h1>
+{% endblock %}
+
+{% block body %}
+<div class="links">
+    <a href="/">Back to Home</a>
+</div>
+
+<div class="details">
+    <div class="img">
+        <img src="{{ profile.profile_picture.url }}" alt="" width="300" height="300">
+    </div>
+    <div class="det">
+        <div>
+            <p>Name: </p>
+            <p>{{ profile.name }}</p>
+        </div>
+
+        <div>
+            <p>Email: </p>
+            <p>{{ profile.email }}</p>
+        </div>
+
+        <div>
+            <p>Faculty: </p>
+            <p>{{ profile.faculty }}</p>
+        </div>
+
+        <div>
+            <p>Department: </p>
+            <p>{{ profile.department }}</p>
+        </div>
+
+        <div>
+            <p>Position: </p>
+            <p>{{ profile.position }}</p>
+        </div>
+
+        <div>
+            <p>Phone: </p>
+            <p>{{ profile.phone_number }}</p>
+        </div>
+
+        <a href="/createnewfile/{{ profile.id }}/">Add staff file</a>
+        <a href="/editstaff/{{ profile.id }}/">Edit profile</a>
+        <a href="/deletestaff/{{ profile.id }}/" style="background-color: red;">Delete profile</a>
+    </div>
+</div>
+
+<div class="history">
+    {% if profile.files.all|length == 0 %}
+    <h2>No Staff Files</h2>
+    {% else %}
+    <h2>All Staff Files ({{ profile.files.all|length }})</h2>
+
+    <div class="table">
+        <div class="row fields">
+            <div class="col">
+                <h2>Name</h2>
+            </div>
+
+            <div class="col">
+                <h2>File</h2>
+            </div>
+
+            <div class="col">
+                <h2>Added on</h2>
+            </div>
+
+            <div class="col">
+                <h2>Action</h2>
+            </div>
+        </div>
+        {% for file in profile.files.all %}
+        <div class="row">
+            <div class="col">
+                <p>{{ file.file_name|capfirst }}</p>
+            </div>
+
+            <div class="col">
+                <p>
+                    <a href="{{ file.file.url }}" target="_blank">
+                    {{ file.file.name|cut:'staff_files/' }}
+                    </a>
+                </p>
+            </div>
+
+            <div class="col">
+                <p>{{ file.uploaded_at }}</p>
+            </div>
+
+            <div class="col act">
+                <a href="/editfile/{{ file.id }}/ ">Edit</a>
+                <a href="/deletefile/{{ file.id }}/" style="background-color: red;">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
