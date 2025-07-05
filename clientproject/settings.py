@@ -118,7 +118,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Login settings
+# Auth settings
 LOGIN_URL = '/signin/'
 
 
