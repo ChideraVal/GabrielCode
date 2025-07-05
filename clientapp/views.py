@@ -5,7 +5,7 @@ from .models import Loan, LoanPayment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from .forms import CustomAuthForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, LoanForm, LoanPaymentForm, StaffForm, StaffFileForm, EditStaffForm, EditStaffFileForm
+from .forms import CustomAuthForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, LoanForm, LoanPaymentForm
 import logging
 
 
