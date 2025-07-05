@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
-from .models import Loan, Staff, StaffFile, LoanPayment
+from .models import Loan, LoanPayment
 from django import forms
 
 class CustomAuthForm(AuthenticationForm):
@@ -71,52 +71,3 @@ class LoanPaymentForm(forms.ModelForm):
         self.instance.loan = loan
         self.instance.save()
         return super().save(commit)
-
-
-class StaffForm(forms.ModelForm):
-    class Meta:
-        model = Staff
-        exclude = ['created_at', 'updated_at']
-    
-    def clean_profile_picture(self):
-        if not self.cleaned_data['profile_picture']:
-           raise forms.ValidationError('Staff profile picture is required.')
-        return self.cleaned_data['profile_picture']
-
-
-class EditStaffForm(forms.ModelForm):
-    class Meta:
-        model = Staff
-        exclude = ['created_at', 'updated_at']
-    
-    def clean_profile_picture(self):
-        if not self.cleaned_data['profile_picture']:
-           raise forms.ValidationError('Staff profile picture is required.')
-        return self.cleaned_data['profile_picture']
-    
-
-class StaffFileForm(forms.ModelForm):
-    class Meta:
-        model = StaffFile
-        exclude = ['staff', 'uploaded_at']
-    
-    def clean_file(self):
-        if not self.cleaned_data['file']:
-           raise forms.ValidationError('Staff file is required.')
-        return self.cleaned_data['file']
-
-    def save(self, staff, commit = False):
-        self.instance.staff = staff
-        self.instance.save()
-        return super().save(commit)
-
-
-class EditStaffFileForm(forms.ModelForm):
-    class Meta:
-        model = StaffFile
-        exclude = ['staff', 'uploaded_at']
-    
-    def clean_file(self):
-        if not self.cleaned_data['file']:
-           raise forms.ValidationError('Staff file is required.')
-        return self.cleaned_data['file']

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-j!&xs*nkvn&)x)2@uv3g@ca0ys5k-msm-t%q(4ejdjuz8tj&qd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['loanapp-mcg0.onrender.com', '127.0.0.1']
 
 
 # Application definition
