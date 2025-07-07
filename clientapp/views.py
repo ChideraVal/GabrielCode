@@ -42,6 +42,7 @@ def request_loan(request):
     form = LoanForm()
     return render(request, 'requestloan.html', {'form': form})
 
+@login_required
 def make_payment(request, id):
     loan = Loan.objects.get(id=id)
     if loan.approval_status != 'Approved':
@@ -87,14 +88,13 @@ def sign_up(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            email = user.email
             
         # Send email
             connection = get_connection()
             subject = 'Account Created Successfully!'
-            html_content = render_to_string('signupmail.html', {'name': name})
+            html_content = render_to_string('subscribemail.html', {'name': user.name})
             from_email = settings.DEFAULT_FROM_EMAIL
-            msg = EmailMessage(subject, html_content, from_email, [email], connection=connection)
+            msg = EmailMessage(subject, html_content, from_email, [user.email], connection=connection)
             msg.content_subtype = "html"
             msg.send()
             return redirect('/signin/')
