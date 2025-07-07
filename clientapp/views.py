@@ -92,7 +92,7 @@ def sign_up(request):
         # Send email
             connection = get_connection()
             subject = 'Account Created Successfully!'
-            html_content = render_to_string('subscribemail.html', {'name': user.name})
+            html_content = render_to_string('subscribemail.html', {'name': user.username})
             from_email = settings.DEFAULT_FROM_EMAIL
             msg = EmailMessage(subject, html_content, from_email, [user.email], connection=connection)
             msg.content_subtype = "html"
