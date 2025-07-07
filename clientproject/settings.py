@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j!&xs*nkvn&)x)2@uv3g@ca0ys5k-msm-t%q(4ejdjuz8tj&qd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['loanapp-mcg0.onrender.com', '127.0.0.1']
 
@@ -120,6 +120,14 @@ USE_TZ = True
 
 # Auth settings
 LOGIN_URL = '/signin/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'munemunites@gmail.com'
+EMAIL_HOST_PASSWORD = 'njpgxostbkyytwbb'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Loan Website<munemunites@gmail.com>'
 
 
 # Static files (CSS, JavaScript, Images)
