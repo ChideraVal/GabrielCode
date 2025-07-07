@@ -7,6 +7,9 @@ from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import CustomAuthForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, LoanForm, LoanPaymentForm
 import logging
+from django.core.mail import get_connection, EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 logging.basicConfig(
@@ -83,7 +86,17 @@ def sign_up(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            email = user.email
+            
+        # Send email
+            connection = get_connection()
+            subject = 'Account Created Successfully!'
+            html_content = render_to_string('signupmail.html', {'name': name})
+            from_email = settings.DEFAULT_FROM_EMAIL
+            msg = EmailMessage(subject, html_content, from_email, [email], connection=connection)
+            msg.content_subtype = "html"
+            msg.send()
             return redirect('/signin/')
         else:
             print(form.errors)
