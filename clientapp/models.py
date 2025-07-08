@@ -44,6 +44,7 @@ class Loan(models.Model):
     guarantor_name = models.CharField(max_length=255, null=True, blank=True)
     guarantor_contact = models.CharField(max_length=20, null=True, blank=True)
     agreement_confirmed = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return str(self.amount)
