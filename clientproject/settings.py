@@ -121,6 +121,14 @@ USE_TZ = True
 # Auth settings
 LOGIN_URL = '/signin/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'onyebuchi1099@gmail.com'
+EMAIL_HOST_PASSWORD = 'oxparagwetpchsex'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Loan Website<onyebuchi1099@gmail.com>'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto&family=Telex&display=swap"
+            rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Noto+Sans&family=Open+Sans:wght@300&family=Oswald&family=Roboto:wght@300&family=Telex&display=swap"
+            rel="stylesheet">
+
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+            a {
+                text-decoration: none;
+                color: blue;
+                font-family: 'Roboto', sans-serif;
+                font-size: 1.05em;
+                font-weight: 400;
+            }
+            
+            div.page {
+                width: 40%;
+                margin: 3em auto;
+                border-top: 5px solid black;
+                background-color: #f3f3f3;
+                padding: .6em .8em;
+                box-sizing: border-box;
+            }
+
+            div.page p {
+                font-size: 1.2em;
+                line-height: 1.6em;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 400;
+            }
+
+            div.page p.small {
+                font-size: small;
+                color: rgb(146, 144, 144);
+            }
+
+            div.logo {
+                display: flex;
+                align-items: center;
+            }
+
+            div.logo p.small {
+                font-family: 'Roboto', sans-serif;
+                color: rgb(146, 144, 144);
+                letter-spacing: .03em;
+            }
+
+            @media (max-width: 1000px) {
+                div.page {
+                    width: 80%;
+                }
+            }
+
+            @media (max-width: 500px) {
+                div.page {
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page">
+            <!-- <div class="image">
+                <img src="https://res.cloudinary.com/djcpw3ots/image/upload/v1/media/mune_user_images/favicon_e7znqy" alt="Tencis logo" width="50" height="50">
+            </div> -->
+            <p>
+                Hi {{ name }},
+            </p>
+            <p>
+                Your account has been created successfully. Login to request, view and manage all your loans from one central dashboard.
+            </p>
+
+            
+
+            <p>
+                To get started, visit our website <a href="https://loanapp-mcg0.onrender.com/">here</a> to view your account dashboard.
+            </p>
+
+            
+
+            <p class="small">
+                You received this mandatory email service announcement to update you on changes made to your account.
+            </p>
+
+            
+        </div>
+    </body>
+
+</html>

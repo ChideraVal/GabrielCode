@@ -38,6 +38,9 @@ def disbursement_portal(request, loan_id):
     form = DisbursementForm()
     return render(request, 'disbursement.html', {'form': form, 'loan': loan})
 import logging
+from django.core.mail import get_connection, EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 logging.basicConfig(
@@ -70,6 +73,7 @@ def request_loan(request):
     form = LoanForm()
     return render(request, 'requestloan.html', {'form': form})
 
+@login_required
 def make_payment(request, id):
     loan = Loan.objects.get(id=id)
     if loan.approval_status != 'Approved':
@@ -117,7 +121,16 @@ def sign_up(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            
+        # Send email
+            connection = get_connection()
+            subject = 'Account Created Successfully!'
+            html_content = render_to_string('subscribemail.html', {'name': user.username})
+            from_email = settings.DEFAULT_FROM_EMAIL
+            msg = EmailMessage(subject, html_content, from_email, [user.email], connection=connection)
+            msg.content_subtype = "html"
+            msg.send()
             return redirect('/signin/')
         else:
             print(form.errors)
