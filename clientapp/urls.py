@@ -11,4 +11,7 @@ urlpatterns = [
     path('requestloan/', views.request_loan),
     path('loanpayments/<int:id>/', views.loan_payment_details),
     path('makepayment/<int:id>/', views.make_payment)
+    ,
+    path('repayment/<int:loan_id>/', views.repayment_portal, name='repayment_portal'),
+    path('disbursement/<int:loan_id>/', views.disbursement_portal, name='disbursement_portal'),
 ]

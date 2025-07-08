@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% load static %}
+<title>Institution Account Details</title>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block header %}
+<h1>Institution Account Details</h1>
+{% endblock %}
+
+{% block body %}
+<div class="links">
+    <a href="/">Back to Home</a>
+</div>
+<div class="account-details-container">
+    <h2>Please make your payment to the following account:</h2>
+    <div class="account-info">
+        <p><strong>Bank Name:</strong> Moniepoint</p>
+        <p><strong>Account Name:</strong> Zara Cooperative Loans</p>
+        <p><strong>Account Number:</strong> 0085454626</p>
+        <p><strong>Amount to Pay:</strong> ₦{{ amount }}</p>
+    </div>
+
+    <form action="/loanpayments/{{ loan.id }}/" method="get">
+        <button type="submit" class="done-btn">Done</button>
+    </form>
+
+</div>
+<style>
+.account-details-container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 32px 24px 24px 24px;
+    text-align: center;
+}
+.account-info {
+    margin-bottom: 24px;
+    background: #f7fafc;
+    border-radius: 6px;
+    padding: 16px;
+    border: 1px solid #cfd8dc;
+}
+.done-btn {
+    width: 100%;
+    padding: 10px 0;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.done-btn:hover {
+    background: #125ea2;
+}
+</style>
+{% endblock %}
