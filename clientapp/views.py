@@ -1,11 +1,42 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .models import Loan, LoanPayment
+from .models import Loan, LoanPayment, Repayment, Disbursement
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from .forms import CustomAuthForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, LoanForm, LoanPaymentForm
+from .forms import CustomAuthForm, CustomUserCreationForm, CustomUserChangeForm, CustomPasswordChangeForm, LoanForm, LoanPaymentForm, RepaymentForm, DisbursementForm
+@login_required
+def repayment_portal(request, loan_id):
+    loan = Loan.objects.get(id=loan_id)
+    if request.method == 'POST':
+        form = RepaymentForm(data=request.POST)
+        if form.is_valid():
+            form.save(loan=loan, user=request.user)
+            return redirect(f'/loanpayments/{loan.id}/')
+        else:
+            return render(request, 'repayment.html', {'form': form, 'loan': loan})
+    form = RepaymentForm()
+    return render(request, 'repayment.html', {'form': form, 'loan': loan})
+
+
+# Only staff/admin should access this view in a real app
+@login_required
+def disbursement_portal(request, loan_id):
+    loan = Loan.objects.get(id=loan_id)
+    if not loan.is_approved():
+        return HttpResponse('<h1>Disbursement cannot be made since loan has not been approved!</h1>')
+    if request.method == 'POST':
+        form = DisbursementForm(data=request.POST)
+        if form.is_valid():
+            disbursement = form.save(loan=loan, user=request.user)
+            disbursement.status = 'Completed'
+            disbursement.save()
+            return redirect('/')
+        else:
+            return render(request, 'disbursement.html', {'form': form, 'loan': loan})
+    form = DisbursementForm()
+    return render(request, 'disbursement.html', {'form': form, 'loan': loan})
 import logging
 
 
@@ -50,8 +81,11 @@ def make_payment(request, id):
         if int(form.data['amount']) > rem_balance:
             return HttpResponse(f'<h1>Over payment! Payment cannot be greater than ₦{rem_balance}.</h1>')
         if form.is_valid():
-            form.save(loan=loan)
-            return redirect(f'/loanpayments/{loan.id}/')
+            # Save the payment but do not redirect to loanpayments yet
+            payment = form.save(loan=loan)
+            # Show institution account details page
+            amount = form.cleaned_data['amount']
+            return render(request, 'institution_account.html', {'amount': amount, 'loan': loan})
         else:
             print(form.errors)
             return render(request, 'makepayment.html', {'form': form, 'loan': loan})

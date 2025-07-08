@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Loan, LoanPayment
+from .models import Loan, LoanPayment, Repayment, Disbursement
 
 
 class LoanAdmin(admin.ModelAdmin):
@@ -15,3 +15,13 @@ admin.site.site_title = 'Admin Dashboard'
 
 admin.site.register(Loan, LoanAdmin)
 admin.site.register(LoanPayment, LoanPaymentAdmin)
+
+
+# Register Repayment and Disbursement
+@admin.register(Repayment)
+class RepaymentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'loan', 'user', 'amount', 'date']
+
+@admin.register(Disbursement)
+class DisbursementAdmin(admin.ModelAdmin):
+    list_display = ['id', 'loan', 'user', 'amount', 'date', 'status']

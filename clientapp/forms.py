@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
-from .models import Loan, LoanPayment
+from .models import Loan, LoanPayment, Repayment, Disbursement
 from django import forms
 
 class CustomAuthForm(AuthenticationForm):
@@ -45,14 +45,27 @@ class LoanForm(forms.ModelForm):
     class Meta:
         model = Loan
         exclude = ['owner', 'approval_status', 'payment_status', 'create_time']
-    
         labels = {
             'amount': 'Amount (₦)',
             'monthly_income': 'Monthly Income (₦)',
-            'source_of_income': 'Source of Income (if employed)'
+            'source_of_income': 'Source of Income (if employed)',
+            'bvn': 'BVN',
+            'employer_name': 'Employer Name',
+            'means_of_id': 'Means of ID',
+            'marital_status': 'Marital Status',
+            'gender': 'Gender',
+            'membership_id': 'Membership ID',
+            'guarantor_name': 'Guarantor Name',
+            'guarantor_contact': 'Guarantor Contact',
+            'agreement_confirmed': 'I confirm that all information provided is accurate.'
         }
 
-    def save(self, owner, commit = False):
+    agreement_confirmed = forms.BooleanField(
+        label="I confirm that all information provided is accurate.",
+        required=True
+    )
+
+    def save(self, owner, commit=False):
         self.instance.owner = owner
         self.instance.save()
         return super().save(commit)
@@ -69,5 +82,40 @@ class LoanPaymentForm(forms.ModelForm):
 
     def save(self, loan, commit = False):
         self.instance.loan = loan
+        self.instance.save()
+        return super().save(commit)
+
+
+# Repayment Form
+class RepaymentForm(forms.ModelForm):
+    class Meta:
+        model = Repayment
+        exclude = ['loan', 'user', 'date']
+        labels = {
+            'amount': 'Repayment Amount (₦)',
+        }
+
+    def save(self, loan, user, commit=False):
+        self.instance.loan = loan
+        self.instance.user = user
+        self.instance.save()
+        return super().save(commit)
+
+
+# Disbursement Form
+class DisbursementForm(forms.ModelForm):
+    class Meta:
+        model = Disbursement
+        exclude = ['loan', 'user', 'date', 'status']
+        labels = {
+            'amount': 'Disbursement Amount (₦)',
+            'bank_name': 'Bank Name',
+            'account_number': 'Account Number',
+            'account_name': 'Account Name',
+        }
+
+    def save(self, loan, user, commit=False):
+        self.instance.loan = loan
+        self.instance.user = user
         self.instance.save()
         return super().save(commit)

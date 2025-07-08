@@ -79,6 +79,12 @@
             <div class="col">
                 <p>{{ loan.create_time.date }}</p>
             </div>
+
+            {% if loan.approval_status == 'Approved' %}
+            <div class="col">
+                <a href="/disbursement/{{ loan.id }}/">Disburse</a>
+            </div>
+            {% endif %}
         </div>
         {% endfor %}
     

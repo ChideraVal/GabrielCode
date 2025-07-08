@@ -35,6 +35,15 @@ class Loan(models.Model):
     employment_status = models.CharField(max_length=14, null=True, choices=e_status, default=e_status[1][1])
     monthly_income = models.IntegerField(null=True, blank=False)
     source_of_income = models.CharField(max_length=200, null=True, blank=False)
+    bvn = models.CharField(max_length=11, null=True, blank=True)
+    employer_name = models.CharField(max_length=255, null=True, blank=True)
+    means_of_id = models.CharField(max_length=100, null=True, blank=True)
+    marital_status = models.CharField(max_length=20, null=True, blank=True)
+    gender = models.CharField(max_length=10, null=True, blank=True)
+    membership_id = models.CharField(max_length=50, null=True, blank=True)
+    guarantor_name = models.CharField(max_length=255, null=True, blank=True)
+    guarantor_contact = models.CharField(max_length=20, null=True, blank=True)
+    agreement_confirmed = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.amount)
@@ -63,3 +72,29 @@ class LoanPayment(models.Model):
 
     def is_approved(self):
         return self.approval_status == 'Approved'
+
+
+# New model for Repayment
+class Repayment(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(decimal_places=2, max_digits=8)
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Repayment of {self.amount} for Loan {self.loan.id} by {self.user.username}"
+
+
+# New model for Disbursement
+class Disbursement(models.Model):
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(decimal_places=2, max_digits=8)
+    date = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=20, choices=(('Pending', 'Pending'), ('Completed', 'Completed')), default='Pending')
+    bank_name = models.CharField(max_length=100, null=True, blank=True)
+    account_number = models.CharField(max_length=20, null=True, blank=True)
+    account_name = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return f"Disbursement of {self.amount} for Loan {self.loan.id} to {self.user.username}"
